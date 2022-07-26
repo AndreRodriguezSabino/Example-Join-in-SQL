@@ -1,0 +1,34 @@
+alter table person add column preferred_course int;
+describe course;
+describe person;
+alter table person add foreign key(preferred_course) references course(id_course);
+update person set preferred_course = '1' where id = '1';
+select name, preferred_course from person;
+select p.name, c.name, c.course_year 
+from  person as p inner join course as c on c.id_course = p.preferred_course;
+select p.name, c.name, c.course_year 
+from  person as p left outer join course as c on c.id_course = p.preferred_course;
+use people_profile;
+create table person_attend_course(
+	id int not null auto_increment,
+	attend_date date,
+	id_person int,
+	id_attend_course int,
+	primary key(id),
+	foreign key(id_person) references person(id),
+	foreign key(id_attend_course) references course(id_course)
+);
+create table person_attend_course(
+	id int not null auto_increment,
+	attend_date date,
+	id_person int,
+	id_attend_course int,
+	primary key(id),
+	foreign key(id_person) references person(id),
+	foreign key(id_attend_course) references course(id_course)
+);
+insert into person_attend_course values (default, '2022-07-15', '1', '2');
+select * from person_attend_course;
+select p.name, c.name 
+from person as p join person_attend_course as pac 
+on p.id = pac.id_person join course as c on c.id_course = pac.id_attend_course;
